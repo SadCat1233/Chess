@@ -32,44 +32,13 @@ struct Plotter{
   }
 
 
-  void process_command(byte& command_type, int& command, int& command2){  //Функция с набором команд для управления роботом через Serial Monitor
-    if (command_type == 103){                                  //Выдает координаты робота или координаты куда тот направляется в зависимости от значения параметра
-      if (command == 1){
-        Serial.println((int)(stepperx.getTargetDeg()));
-      }
-      if (command == 2){
-        Serial.println((int)(stepperx.getCurrentDeg()));
-      }
-      if (command == 3){
-        Serial.println((int)(steppery.getTargetDeg()));
-      }
-      if (command == 4){
-        Serial.println((int)(steppery.getCurrentDeg()));
-      }
-    }
-    if (command_type == 114){           //Вызывает функцию для передвижения в угол доски
-      move_to_corner();
-    }
-    if (command_type == 99){
-      asm volatile ("jmp 0x00");
-      Serial.println(FLAG);
-    }
-    if (command_type == 115){                 //Задает координаты роботу куда тому надо двигаться
-      stepperx.setTargetDeg(command * X_K, ABSOLUTE);
-      steppery.setTargetDeg(command2 * Y_K, ABSOLUTE);
-    }
-    if (command_type == 117){           //Перывает действие моторов
-      stepperx.brake();
-      steppery.brake();
-    }
-    if (command_type == 121){           //Прерывает действие моторов и передвигает магнит в координаты (0; 0)
-      stepperx.reset();
-      steppery.reset();
-    }
+  void process_command(int& command, int& command2){  //Функция с набором команд для управления роботом через Serial Monitor
+    stepperx.setTargetDeg(command * X_K, ABSOLUTE);
+    steppery.setTargetDeg(command2 * Y_K, ABSOLUTE);
+    MAG = !MAG;
     command_type = 0;
     command = 0;
     command2 = 0;
-    MAG = !MAG;
   }
 
 
