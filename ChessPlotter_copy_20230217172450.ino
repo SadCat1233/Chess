@@ -50,7 +50,7 @@ void loop() {
 }
 
 
-void process_commands(){                          //Обработка команды из struct и запуск функции с переменными из этой команды в качестве аргументов
+void process_commands(){           //Обработка команды из struct и запуск функции с переменными из этой команды в качестве аргументов
   if (!p.is_moving() && !commands.isEmpty()){
     buff = commands.dequeue();
     command = buff.c1;
